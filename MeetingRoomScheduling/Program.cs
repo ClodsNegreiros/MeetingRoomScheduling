@@ -14,6 +14,8 @@ using Microsoft.OpenApi.Models;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using System.Text;
+using MeetingRoomScheduling.Application.Interfaces.Room;
+using MeetingRoomScheduling.Application.UseCases.Room;
 
 namespace MeetingRoomScheduling
 {
@@ -42,12 +44,15 @@ namespace MeetingRoomScheduling
             builder.Services.AddScoped<IUpdateUserUseCase, UpdateUserUseCase>();
             builder.Services.AddScoped<IDeleteUserUseCase, DeleteUserUseCase>();
 
+            builder.Services.AddScoped<ICreateRoomUseCase, CreateRoomUseCase>();
+
             builder.Services.AddScoped<TokenGenerator>();
 
             builder.Services.AddScoped<ILoginUserUseCase, LoginUserUseCase>();
 
             // Repository DI
             builder.Services.AddScoped<IUserRepository, UserRepository>();
+            builder.Services.AddScoped<IRoomRepository, RoomRepository>();
 
             // DbContext
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
