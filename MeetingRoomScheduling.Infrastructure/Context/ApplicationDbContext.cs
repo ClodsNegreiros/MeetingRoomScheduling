@@ -1,4 +1,4 @@
-﻿using MeetingRoomScheduling.Infrastructure.Mappings;
+﻿using MeetingRoomScheduling.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace MeetingRoomScheduling.Infrastructure.Context
@@ -8,11 +8,14 @@ namespace MeetingRoomScheduling.Infrastructure.Context
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {}
 
+        public DbSet<Booking> Bookings { get; set; }
+        public DbSet<Room> Rooms { get; set; }
+        public DbSet<User> Users { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.ApplyConfiguration(new BookingMapping());
-            modelBuilder.ApplyConfiguration(new RoomMapping());
-            modelBuilder.ApplyConfiguration(new UserMapping());
+            base.OnModelCreating(modelBuilder);
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
         }
     }
 }
