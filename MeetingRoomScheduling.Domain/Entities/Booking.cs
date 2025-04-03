@@ -1,4 +1,6 @@
-﻿namespace MeetingRoomScheduling.Domain.Entities
+﻿using MeetingRoomScheduling.Domain.Enums;
+
+namespace MeetingRoomScheduling.Domain.Entities
 {
     public class Booking
     {
@@ -9,5 +11,8 @@
         public User User{ get; set; }
         public DateTime BookingStartDate { get; set; }
         public DateTime BookingEndDate { get; set; }
+
+        // TODO: ADD STATUS PROPERTY - ativa/cancelada
+        public EBookingStatus Status { get; set; }
     }
 }
