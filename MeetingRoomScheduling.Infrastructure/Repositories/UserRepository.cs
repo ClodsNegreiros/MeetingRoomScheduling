@@ -30,10 +30,12 @@ namespace MeetingRoomScheduling.Infrastructure.Repositories
             return user;
         }
 
-        public async Task DeleteAsync(User user)
+        public async Task<bool> DeleteAsync(User user)
         {
             _context.Users.Remove(user);
             await _context.SaveChangesAsync();
+
+            return true;
         }
 
         public async Task<User> GetById(int id)
