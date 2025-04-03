@@ -16,5 +16,15 @@ namespace MeetingRoomScheduling.API.Controllers
             var result = await useCase.Execute(request);
             return Ok(result);
         }
+
+        [HttpPut("v1/update/{id}")]
+        public async Task<IActionResult> Update(
+            [FromRoute] int id,
+            [FromBody] UpdateRoomRequest request,
+            [FromServices] IUpdateRoomUseCase useCase)
+        {
+            var result = await useCase.Execute(id, request);
+            return Ok(result);
+        }
     }
 }

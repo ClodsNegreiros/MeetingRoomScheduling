@@ -45,6 +45,7 @@ namespace MeetingRoomScheduling
             builder.Services.AddScoped<IDeleteUserUseCase, DeleteUserUseCase>();
 
             builder.Services.AddScoped<ICreateRoomUseCase, CreateRoomUseCase>();
+            builder.Services.AddScoped<IUpdateRoomUseCase, UpdateRoomUseCase>();
 
             builder.Services.AddScoped<TokenGenerator>();
 
