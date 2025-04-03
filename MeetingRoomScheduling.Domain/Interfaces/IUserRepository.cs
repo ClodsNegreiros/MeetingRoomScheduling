@@ -6,6 +6,7 @@ namespace MeetingRoomScheduling.Domain.Interfaces
     {
         Task<User> CreateAsync(User user);
         Task DeleteAsync(User user);
-        Task UpdateAsync(User user);
+        Task<User> GetById(int id);
+        Task<User> UpdateAsync(User user);
     }
 }

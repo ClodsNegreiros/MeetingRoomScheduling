@@ -1,6 +1,7 @@
-﻿using MeetingRoomScheduling.Domain.Entities;
+using MeetingRoomScheduling.Domain.Entities;
 using MeetingRoomScheduling.Domain.Interfaces;
 using MeetingRoomScheduling.Infrastructure.Context;
+using Microsoft.EntityFrameworkCore;
 
 namespace MeetingRoomScheduling.Infrastructure.Repositories
 {
@@ -31,6 +32,12 @@ namespace MeetingRoomScheduling.Infrastructure.Repositories
         {
             _context.Remove(user);
             await _context.SaveChangesAsync();
+        }
+        public async Task<User> GetById(int id)
+        {
+            return await _context.Users
+                .Where(user => user.Id == id)
+                .SingleOrDefaultAsync();
         }
     }
 }
