@@ -30,6 +30,7 @@ namespace MeetingRoomScheduling
             // UseCase DI
             builder.Services.AddScoped<ICreateUserUseCase, CreateUserUseCase>();
             builder.Services.AddScoped<IUpdateUserUseCase, UpdateUserUseCase>();
+            builder.Services.AddScoped<IDeleteUserUseCase, DeleteUserUseCase>();
 
             // Repository DI
             builder.Services.AddScoped<IUserRepository, UserRepository>();

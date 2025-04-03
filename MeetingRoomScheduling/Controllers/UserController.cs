@@ -25,5 +25,14 @@ namespace MeetingRoomScheduling.API.Controllers
             var result = await useCase.Execute(id, request);
             return Ok(result);
         }
+
+        [HttpDelete("v1/delete/{id}")]
+        public async Task<IActionResult> Delete(
+            [FromRoute] int id,
+            [FromServices] IDeleteUserUseCase useCase)
+        {
+            var result = await useCase.Execute(id);
+            return Ok(result);
+        }
     }
 }
