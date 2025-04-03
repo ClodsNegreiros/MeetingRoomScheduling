@@ -18,7 +18,7 @@ namespace MeetingRoomScheduling.Application.Commands.User
             var existingUser = _repository.GetById(command.Id);
             if (existingUser == null) 
             {
-                throw new KeyNotFoundException($"Torneio com Id {command.Id} não encontrado.");
+                throw new KeyNotFoundException($"Usuário com Id {command.Id} não encontrado.");
             }
 
             var userToUpdate = ToUpdate(existingUser.Result, command.Request);
