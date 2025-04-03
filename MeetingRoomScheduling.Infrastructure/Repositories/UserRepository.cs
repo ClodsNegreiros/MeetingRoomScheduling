@@ -1,4 +1,4 @@
-using MeetingRoomScheduling.Domain.Entities;
+﻿using MeetingRoomScheduling.Domain.Entities;
 using MeetingRoomScheduling.Domain.Interfaces;
 using MeetingRoomScheduling.Infrastructure.Context;
 using Microsoft.EntityFrameworkCore;
@@ -22,17 +22,20 @@ namespace MeetingRoomScheduling.Infrastructure.Repositories
             return user;
         }
 
-        public async Task UpdateAsync(User user)
+        public async Task<User> UpdateAsync(User user)
         {
             _context.Users.Update(user);
             await _context.SaveChangesAsync();
+
+            return user;
         }
 
         public async Task DeleteAsync(User user)
         {
-            _context.Remove(user);
+            _context.Users.Remove(user);
             await _context.SaveChangesAsync();
         }
+
         public async Task<User> GetById(int id)
         {
             return await _context.Users
