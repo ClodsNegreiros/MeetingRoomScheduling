@@ -44,5 +44,15 @@ namespace MeetingRoomScheduling.Infrastructure.Repositories
                 .Where(user => user.Id == id)
                 .SingleOrDefaultAsync();
         }
+
+        public async Task<bool> AuthenticateAsync(string email, string password)
+        {
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
+            if (user == null)
+                return false;
+
+            // TODO: Implementar verificação de senha também.
+            return true;
+        }
     }
 }
