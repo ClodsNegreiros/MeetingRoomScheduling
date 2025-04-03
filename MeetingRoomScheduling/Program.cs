@@ -2,6 +2,8 @@
 using MeetingRoomScheduling.Application.Commands.User;
 using MeetingRoomScheduling.Application.Dtos.Auth;
 using MeetingRoomScheduling.Application.Interfaces;
+using MeetingRoomScheduling.Application.Interfaces.Auth;
+using MeetingRoomScheduling.Application.UseCases.Auth;
 using MeetingRoomScheduling.Application.UseCases.User;
 using MeetingRoomScheduling.Application.Utils.Auth;
 using MeetingRoomScheduling.Domain.Interfaces;
@@ -35,6 +37,8 @@ namespace MeetingRoomScheduling
             builder.Services.AddScoped<IDeleteUserUseCase, DeleteUserUseCase>();
 
             builder.Services.AddScoped<TokenGenerator>();
+
+            builder.Services.AddScoped<ILoginUserUseCase, LoginUserUseCase>();
 
             // Repository DI
             builder.Services.AddScoped<IUserRepository, UserRepository>();
