@@ -8,7 +8,7 @@ namespace MeetingRoomScheduling.Infrastructure.Mappings
     {
         public void Configure(EntityTypeBuilder<Booking> builder)
         {
-            builder.ToTable("User");
+            builder.ToTable("Booking");
             builder.HasKey(booking => booking.Id);
 
             builder.Property(booking => booking.Id);
@@ -16,6 +16,17 @@ namespace MeetingRoomScheduling.Infrastructure.Mappings
             builder.Property(booking => booking.RoomId);
             builder.Property(booking => booking.BookingStartDate);
             builder.Property(booking => booking.BookingEndDate);
+
+            builder
+              .HasOne(booking => booking.User)
+              .WithMany(user => user.Bookings)
+              .HasForeignKey(booking => booking.UserId);
+
+            builder
+              .HasOne(booking => booking.Room)
+              .WithMany(room => room.Bookings)
+              .HasForeignKey(booking => booking.UserId);
+
         }
     }
 }
