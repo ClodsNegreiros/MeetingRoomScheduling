@@ -1,5 +1,6 @@
 
 using MeetingRoomScheduling.Application.Commands.User;
+using MeetingRoomScheduling.Application.Dtos.Auth;
 using MeetingRoomScheduling.Application.Interfaces;
 using MeetingRoomScheduling.Application.UseCases.User;
 using MeetingRoomScheduling.Domain.Interfaces;
@@ -38,6 +39,11 @@ namespace MeetingRoomScheduling
             // DbContext
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseNpgsql(connectionString));
+
+
+            var jwtSettings = new JwtSettings();
+            builder.Configuration.GetSection("Jwt").Bind(jwtSettings);
+            builder.Services.AddSingleton(jwtSettings);
 
             var app = builder.Build();
 
