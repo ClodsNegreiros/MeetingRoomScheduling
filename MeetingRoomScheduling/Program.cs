@@ -1,5 +1,10 @@
 
+using MeetingRoomScheduling.Application.Commands.User;
+using MeetingRoomScheduling.Application.Interfaces;
+using MeetingRoomScheduling.Application.UseCases.User;
+using MeetingRoomScheduling.Domain.Interfaces;
 using MeetingRoomScheduling.Infrastructure.Context;
+using MeetingRoomScheduling.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 namespace MeetingRoomScheduling
@@ -9,14 +14,27 @@ namespace MeetingRoomScheduling
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
-            // Add services to the container.
 
             builder.Services.AddControllers();
-            // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
             builder.Services.AddOpenApi();
 
             var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
+            // Add Mediator DI
+            builder.Services.AddMediatR(cfg =>
+                cfg.RegisterServicesFromAssemblies(
+                    typeof(CreateUserCommand).Assembly,
+                    typeof(CreateUserUseCase).Assembly
+                ));
+
+            // UseCase DI
+            builder.Services.AddScoped<ICreateUserUseCase, CreateUserUseCase>();
+            builder.Services.AddScoped<IUpdateUserUseCase, UpdateUserUseCase>();
+
+            // Repository DI
+            builder.Services.AddScoped<IUserRepository, UserRepository>();
+
+            // DbContext
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseNpgsql(connectionString));
 
