@@ -17,7 +17,7 @@ namespace MeetingRoomScheduling.Application.Commands.Room
         {
             var existingRoom = _repository.GetById(command.Id);
             if (existingRoom == null) { 
-                throw new KeyNotFoundException($"Usuário com Id {command.Id} não encontrado.");
+                throw new KeyNotFoundException($"Sala com Id {command.Id} não encontrado.");
             }
 
             var roomToUpdate = ToUpdate(existingRoom.Result, command.Request);
