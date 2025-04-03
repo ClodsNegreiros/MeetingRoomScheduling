@@ -1,5 +1,5 @@
 ﻿using MediatR;
-using MeetingRoomScheduling.Application.Requests;
+using MeetingRoomScheduling.Application.Requests.User;
 using MeetingRoomScheduling.Domain.Interfaces;
 
 namespace MeetingRoomScheduling.Application.Commands.User

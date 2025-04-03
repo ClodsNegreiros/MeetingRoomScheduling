@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using MeetingRoomScheduling.Application.Commands.User;
 using MeetingRoomScheduling.Application.Interfaces;
-using MeetingRoomScheduling.Application.Requests;
+using MeetingRoomScheduling.Application.Requests.User;
 using Tourmine.Tournament.Application.UseCases;
 
 namespace MeetingRoomScheduling.Application.UseCases.User

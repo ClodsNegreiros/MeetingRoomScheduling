@@ -1,5 +1,5 @@
 ﻿using MediatR;
-using MeetingRoomScheduling.Application.Requests;
+using MeetingRoomScheduling.Application.Requests.User;
 
 namespace MeetingRoomScheduling.Application.Commands.User
 {

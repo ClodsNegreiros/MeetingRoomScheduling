@@ -1,4 +1,4 @@
-﻿using MeetingRoomScheduling.Application.Requests;
+﻿using MeetingRoomScheduling.Application.Requests.User;
 using MeetingRoomScheduling.Domain.Entities;
 
 namespace MeetingRoomScheduling.Application.Interfaces

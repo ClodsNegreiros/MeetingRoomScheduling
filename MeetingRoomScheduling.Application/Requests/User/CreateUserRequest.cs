@@ -1,4 +1,4 @@
-﻿namespace MeetingRoomScheduling.Application.Requests
+﻿namespace MeetingRoomScheduling.Application.Requests.User
 {
     public class CreateUserRequest
     {
