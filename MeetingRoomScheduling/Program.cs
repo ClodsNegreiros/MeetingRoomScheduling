@@ -10,6 +10,7 @@ using MeetingRoomScheduling.Domain.Interfaces;
 using MeetingRoomScheduling.Infrastructure.Context;
 using MeetingRoomScheduling.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
 
 namespace MeetingRoomScheduling
 {
@@ -22,6 +23,16 @@ namespace MeetingRoomScheduling
             builder.Services.AddControllers();
             builder.Services.AddOpenApi();
 
+            builder.Services.AddEndpointsApiExplorer();
+            builder.Services.AddSwaggerGen(options =>
+            {
+                options.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Title = "Meeting Room Scheduling API",
+                    Version = "v1",
+                    Description = "API para gerenciamento de reservas de salas de reunião"
+                });
+            });
             var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
             // Add Mediator DI
@@ -57,7 +68,12 @@ namespace MeetingRoomScheduling
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
-                app.MapOpenApi();
+                app.UseSwagger();
+                app.UseSwaggerUI(c =>
+                {
+                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Meeting Room Scheduling API v1");
+                    c.RoutePrefix = string.Empty;
+                });
             }
 
             app.UseHttpsRedirection();
