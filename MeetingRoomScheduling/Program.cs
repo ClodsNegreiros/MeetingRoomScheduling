@@ -16,6 +16,8 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using System.Text;
 using MeetingRoomScheduling.Application.Interfaces.Room;
 using MeetingRoomScheduling.Application.UseCases.Room;
+using MeetingRoomScheduling.Application.Interfaces.Booking;
+using MeetingRoomScheduling.Application.UseCases.Booking;
 
 namespace MeetingRoomScheduling
 {
@@ -48,6 +50,8 @@ namespace MeetingRoomScheduling
             builder.Services.AddScoped<IUpdateRoomUseCase, UpdateRoomUseCase>();
             builder.Services.AddScoped<IDeleteRoomUseCase, DeleteRoomUseCase>();
 
+            builder.Services.AddScoped<ICreateBookingUseCase, CreateBookingUseCase>();
+
             builder.Services.AddScoped<TokenGenerator>();
 
             builder.Services.AddScoped<ILoginUserUseCase, LoginUserUseCase>();
@@ -55,6 +59,7 @@ namespace MeetingRoomScheduling
             // Repository DI
             builder.Services.AddScoped<IUserRepository, UserRepository>();
             builder.Services.AddScoped<IRoomRepository, RoomRepository>();
+            builder.Services.AddScoped<IBookingRepository, BookingRepository>();
 
             // DbContext
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
