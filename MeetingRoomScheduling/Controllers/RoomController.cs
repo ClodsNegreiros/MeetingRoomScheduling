@@ -1,11 +1,13 @@
 ﻿using MeetingRoomScheduling.Application.Interfaces.Room;
 using MeetingRoomScheduling.Application.Requests.Room;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MeetingRoomScheduling.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class RoomController : ControllerBase
     {
         [HttpPost("v1/create")]

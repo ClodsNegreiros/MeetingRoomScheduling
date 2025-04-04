@@ -1,12 +1,14 @@
 ﻿using MeetingRoomScheduling.Application.Interfaces.Booking;
 using MeetingRoomScheduling.Application.Requests.Booking;
 using MeetingRoomScheduling.Domain.Enums;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MeetingRoomScheduling.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class BookingController : ControllerBase
     {
         [HttpPost("v1/create")]
