@@ -27,7 +27,7 @@ namespace MeetingRoomScheduling.API.Controllers
             return Ok(result);
         }
 
-        [HttpGet("v1/all")]
+        [HttpGet("v1")]
         public async Task<IActionResult> GetAll([FromServices] IGetAllBookingUseCase useCase)
         {
             var result = await useCase.Execute();
