@@ -1,7 +1,6 @@
 
 using MeetingRoomScheduling.Application.Commands.User;
 using MeetingRoomScheduling.Application.Dtos.Auth;
-using MeetingRoomScheduling.Application.Interfaces;
 using MeetingRoomScheduling.Application.Interfaces.Auth;
 using MeetingRoomScheduling.Application.UseCases.Auth;
 using MeetingRoomScheduling.Application.UseCases.User;
@@ -19,6 +18,7 @@ using MeetingRoomScheduling.Application.UseCases.Room;
 using MeetingRoomScheduling.Application.Interfaces.Booking;
 using MeetingRoomScheduling.Application.UseCases.Booking;
 using MeetingRoomScheduling.Application.Interfaces.Booking.Queries;
+using MeetingRoomScheduling.Application.Interfaces;
 
 namespace MeetingRoomScheduling
 {
@@ -111,7 +111,7 @@ namespace MeetingRoomScheduling
                     Scheme = "Bearer",
                     BearerFormat = "JWT",
                     In = ParameterLocation.Header,
-                    Description = "Insira o token JWT no formato: Bearer {seu_token}"
+                    Description = "Insira apenas o seu token JWT"
                 });
 
                 options.AddSecurityRequirement(new OpenApiSecurityRequirement
