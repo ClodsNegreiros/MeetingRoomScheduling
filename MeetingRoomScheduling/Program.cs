@@ -18,6 +18,7 @@ using MeetingRoomScheduling.Application.Interfaces.Room;
 using MeetingRoomScheduling.Application.UseCases.Room;
 using MeetingRoomScheduling.Application.Interfaces.Booking;
 using MeetingRoomScheduling.Application.UseCases.Booking;
+using MeetingRoomScheduling.Application.Interfaces.Booking.Queries;
 
 namespace MeetingRoomScheduling
 {
@@ -52,6 +53,7 @@ namespace MeetingRoomScheduling
 
             builder.Services.AddScoped<ICreateBookingUseCase, CreateBookingUseCase>();
             builder.Services.AddScoped<ICancelBookingUseCase, CancelBookingUseCase>();
+            builder.Services.AddScoped<IGetAllBookingUseCase, GetAllBookingUseCase>();
 
             builder.Services.AddScoped<TokenGenerator>();
 
