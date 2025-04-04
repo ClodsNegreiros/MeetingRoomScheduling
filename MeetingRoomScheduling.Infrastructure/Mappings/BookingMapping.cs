@@ -25,7 +25,7 @@ namespace MeetingRoomScheduling.Infrastructure.Mappings
             builder
               .HasOne(booking => booking.Room)
               .WithMany(room => room.Bookings)
-              .HasForeignKey(booking => booking.UserId);
+              .HasForeignKey(booking => booking.RoomId);
 
         }
     }
