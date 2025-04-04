@@ -1,6 +1,4 @@
-﻿using MeetingRoomScheduling.Domain.Enums;
-
-namespace MeetingRoomScheduling.Application.Requests.Booking
+﻿namespace MeetingRoomScheduling.Application.Requests.Booking
 {
     public class CreateBookingRequest
     {
@@ -8,5 +6,6 @@ namespace MeetingRoomScheduling.Application.Requests.Booking
         public int UserId { get; set; }
         public DateTime BookingStartDate { get; set; }
         public DateTime BookingEndDate { get; set; }
+        public int PeopleQuantity { get; set; }
     }
 }
