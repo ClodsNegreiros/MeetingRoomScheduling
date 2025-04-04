@@ -1,7 +1,8 @@
 ﻿using MediatR;
+using MeetingRoomScheduling.Application.Responses.Booking;
 namespace MeetingRoomScheduling.Application.Commands.Booking
 {
-    public class CancelBookingCommand : IRequest<Domain.Entities.Booking>
+    public class CancelBookingCommand : IRequest<BookingResponse>
     {
         public int Id { get; set; }
 

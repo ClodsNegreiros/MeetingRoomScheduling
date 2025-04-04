@@ -1,9 +1,10 @@
 ﻿using MediatR;
+using MeetingRoomScheduling.Application.Responses.Booking;
 using MeetingRoomScheduling.Domain.Interfaces;
 
 namespace MeetingRoomScheduling.Application.Commands.Booking
 {
-    public class CancelBookingHandler : IRequestHandler<CancelBookingCommand, Domain.Entities.Booking>
+    public class CancelBookingHandler : IRequestHandler<CancelBookingCommand, BookingResponse>
     {
         private readonly IBookingRepository _repository;
         
@@ -12,7 +13,7 @@ namespace MeetingRoomScheduling.Application.Commands.Booking
             _repository = repository;
         }
 
-        public async Task<Domain.Entities.Booking> Handle(CancelBookingCommand command, CancellationToken cancellationToken)
+        public async Task<BookingResponse> Handle(CancelBookingCommand command, CancellationToken cancellationToken)
         {
             var existingBooking = _repository.GetById(command.Id);
             if (existingBooking == null)
@@ -21,7 +22,9 @@ namespace MeetingRoomScheduling.Application.Commands.Booking
             }
 
             var room = ToUpdate(existingBooking.Result);
-            return await _repository.UpdateAsync(room);
+            var bookingUpdate = await _repository.UpdateAsync(room);
+
+            return ToResponse(bookingUpdate);
         }
 
         private Domain.Entities.Booking ToUpdate(Domain.Entities.Booking booking)
@@ -29,6 +32,20 @@ namespace MeetingRoomScheduling.Application.Commands.Booking
             booking.Status = Domain.Enums.EBookingStatus.Canceled;
 
             return booking;
+        }
+
+        private BookingResponse ToResponse(Domain.Entities.Booking booking)
+        {
+            return new BookingResponse
+            {
+                Id = booking.Id,
+                RoomId = booking.RoomId,
+                UserId = booking.UserId,
+                BookingStartDate = booking.BookingStartDate,
+                BookingEndDate = booking.BookingEndDate,
+                Status = booking.Status,
+                PeopleQuantity = booking.PeopleQuantity
+            };
         }
     }
 }
