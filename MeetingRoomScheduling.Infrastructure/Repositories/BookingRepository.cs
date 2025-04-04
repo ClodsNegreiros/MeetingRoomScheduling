@@ -40,5 +40,15 @@ namespace MeetingRoomScheduling.Infrastructure.Repositories
         {
             return await _context.Bookings.ToListAsync();
         }
+
+        public async Task<List<Booking>> GetBookingsByRoomAndDate(int roomId, DateTime startDate)
+        {
+            return await _context.Bookings
+                .Where(booking =>
+                    booking.RoomId == roomId &&
+                    booking.BookingStartDate.Date == startDate.Date &&
+                    booking.Status == Domain.Enums.EBookingStatus.Active)
+                .ToListAsync();
+        }
     }
 }
