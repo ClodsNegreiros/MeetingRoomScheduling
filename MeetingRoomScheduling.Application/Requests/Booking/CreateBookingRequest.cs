@@ -8,6 +8,5 @@ namespace MeetingRoomScheduling.Application.Requests.Booking
         public int UserId { get; set; }
         public DateTime BookingStartDate { get; set; }
         public DateTime BookingEndDate { get; set; }
-        public EBookingStatus Status { get; set; }
     }
 }
