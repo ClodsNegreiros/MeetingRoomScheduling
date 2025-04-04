@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using MeetingRoomScheduling.Application.Commands.Booking;
 using MeetingRoomScheduling.Application.Interfaces.Booking;
+using MeetingRoomScheduling.Application.Responses.Booking;
 using Tourmine.Tournament.Application.UseCases;
 
 namespace MeetingRoomScheduling.Application.UseCases.Booking
@@ -10,7 +11,7 @@ namespace MeetingRoomScheduling.Application.UseCases.Booking
         public CancelBookingUseCase(IMediator mediator) : base(mediator)
         {}
 
-        public async Task<Domain.Entities.Booking> Execute(int id)
+        public async Task<BookingResponse> Execute(int id)
         {
             return await mediator.Send(new CancelBookingCommand(id));
         }
