@@ -35,5 +35,10 @@ namespace MeetingRoomScheduling.Infrastructure.Repositories
                 .Where(room => room.Id == id)
                 .SingleOrDefaultAsync();
         }
+
+        public async Task<List<Booking>> GetAll()
+        {
+            return await _context.Bookings.ToListAsync();
+        }
     }
 }
