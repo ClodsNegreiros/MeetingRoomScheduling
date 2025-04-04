@@ -1,4 +1,25 @@
 
+using MeetingRoomScheduling.Application.Commands.User;
+using MeetingRoomScheduling.Application.Dtos.Auth;
+using MeetingRoomScheduling.Application.Interfaces.Auth;
+using MeetingRoomScheduling.Application.UseCases.Auth;
+using MeetingRoomScheduling.Application.UseCases.User;
+using MeetingRoomScheduling.Application.Utils.Auth;
+using MeetingRoomScheduling.Domain.Interfaces;
+using MeetingRoomScheduling.Infrastructure.Context;
+using MeetingRoomScheduling.Infrastructure.Repositories;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using System.Text;
+using MeetingRoomScheduling.Application.Interfaces.Room;
+using MeetingRoomScheduling.Application.UseCases.Room;
+using MeetingRoomScheduling.Application.Interfaces.Booking;
+using MeetingRoomScheduling.Application.UseCases.Booking;
+using MeetingRoomScheduling.Application.Interfaces.Booking.Queries;
+using MeetingRoomScheduling.Application.Interfaces;
+
 namespace MeetingRoomScheduling
 {
     public class Program
@@ -7,24 +28,125 @@ namespace MeetingRoomScheduling
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // Add services to the container.
-
             builder.Services.AddControllers();
-            // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
             builder.Services.AddOpenApi();
+
+            builder.Services.AddEndpointsApiExplorer();
+          
+            var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+
+            // Add Mediator DI
+            builder.Services.AddMediatR(cfg =>
+                cfg.RegisterServicesFromAssemblies(
+                    typeof(CreateUserCommand).Assembly,
+                    typeof(CreateUserUseCase).Assembly
+                ));
+
+            // UseCase DI
+            builder.Services.AddScoped<ICreateUserUseCase, CreateUserUseCase>();
+            builder.Services.AddScoped<IUpdateUserUseCase, UpdateUserUseCase>();
+            builder.Services.AddScoped<IDeleteUserUseCase, DeleteUserUseCase>();
+
+            builder.Services.AddScoped<ICreateRoomUseCase, CreateRoomUseCase>();
+            builder.Services.AddScoped<IUpdateRoomUseCase, UpdateRoomUseCase>();
+            builder.Services.AddScoped<IDeleteRoomUseCase, DeleteRoomUseCase>();
+
+            builder.Services.AddScoped<ICreateBookingUseCase, CreateBookingUseCase>();
+            builder.Services.AddScoped<ICancelBookingUseCase, CancelBookingUseCase>();
+            builder.Services.AddScoped<IGetAllBookingUseCase, GetAllBookingUseCase>();
+            builder.Services.AddScoped<IGetBookingsByUserIdAndRoomIdUseCase, GetBookingsByUserIdAndRoomIdUseCase>();
+
+            builder.Services.AddScoped<TokenGenerator>();
+
+            builder.Services.AddScoped<ILoginUserUseCase, LoginUserUseCase>();
+
+            // Repository DI
+            builder.Services.AddScoped<IUserRepository, UserRepository>();
+            builder.Services.AddScoped<IRoomRepository, RoomRepository>();
+            builder.Services.AddScoped<IBookingRepository, BookingRepository>();
+
+            // DbContext
+            builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    options.UseNpgsql(connectionString));
+
+            var jwtSettings = new JwtSettings();
+            builder.Configuration.GetSection("Jwt").Bind(jwtSettings);
+            builder.Services.AddSingleton(jwtSettings);
+
+            builder.Services
+                .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+                {
+                    options.RequireHttpsMetadata = false;
+                    options.SaveToken = true;
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuer = true,
+                        ValidateAudience = true,
+                        ValidateLifetime = true,
+                        ValidateIssuerSigningKey = true,
+                        ValidIssuer = builder.Configuration["Jwt:Issuer"],
+                        ValidAudience = builder.Configuration["Jwt:Audience"],
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
+                    };
+                });
+
+            builder.Services.AddAuthorization();
+            builder.Services.AddAuthentication();
+
+
+            builder.Services.AddSwaggerGen(options =>
+            {
+                options.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Title = "Meeting Room Scheduling API",
+                    Version = "v1",
+                    Description = "API para gerenciamento de reservas de salas de reunião"
+                });
+
+                options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                {
+                    Name = "Authorization",
+                    Type = SecuritySchemeType.Http,
+                    Scheme = "Bearer",
+                    BearerFormat = "JWT",
+                    In = ParameterLocation.Header,
+                    Description = "Insira apenas o seu token JWT"
+                });
+
+                options.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                            Reference = new OpenApiReference
+                            {
+                                Type = ReferenceType.SecurityScheme,
+                                Id = "Bearer"
+                            }
+                        },
+                        new string[] { }
+                    }
+                });
+            });
 
             var app = builder.Build();
 
-            // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
-                app.MapOpenApi();
+                app.UseSwagger();
+                app.UseSwaggerUI(c =>
+                {
+                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Meeting Room Scheduling API v1");
+                    c.RoutePrefix = string.Empty;
+                });
             }
 
             app.UseHttpsRedirection();
 
-            app.UseAuthorization();
+            app.UseAuthentication();
 
+            app.UseAuthorization();
 
             app.MapControllers();
 

@@ -74,3 +74,5 @@ appsettings.Development.json
 /src/Infrastructure/Tourmine.Tournament.Infrastructure/obj/Debug/net9.0/Tourmine.Tournament.Infrastructure.assets.cache
 /src/Infrastructure/Tourmine.Tournament.Infrastructure/obj/Debug/net9.0/Tourmine.Tournament.Infrastructure.GeneratedMSBuildEditorConfig.editorconfig
 /src/WebAPI/Tourmine.Tournament.API/obj/Debug/net9.0/Tourmine.Tournament.API.assets.cache
+MeetingRoomScheduling.sln
+MeetingRoomScheduling.sln
