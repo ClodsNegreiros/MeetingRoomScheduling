@@ -15,13 +15,20 @@ namespace MeetingRoomScheduling.Application.Commands.Booking
 
         public async Task<Domain.Entities.Booking> Handle(CreateBookingCommand command, CancellationToken cancellationToken)
         {
-            var room = ToModel(command.Request);
-            return await _repository.CreateAsync(room);
+            var booking = ToModel(command.Request);
+
+            var conflictingdBookings = await _repository.GetBookingsByRoomAndDate(command.Request.RoomId, command.Request.BookingStartDate);
+            if (conflictingdBookings.Any(conflictingBooking => (booking.BookingStartDate < conflictingBooking.BookingEndDate && booking.BookingEndDate > conflictingBooking.BookingStartDate)))
+            {
+                throw new InvalidOperationException("Já existe uma reserva nesse horário para a mesma sala.");
+            }
+
+            return await _repository.CreateAsync(booking);
         }
 
         private Domain.Entities.Booking ToModel(CreateBookingRequest request)
         {
-            return new Domain.Entities.Booking(request.RoomId, request.UserId, request.BookingStartDate, request.BookingEndDate, request.Status);
+            return new Domain.Entities.Booking(request.RoomId, request.UserId, request.BookingStartDate, request.BookingEndDate, Domain.Enums.EBookingStatus.Active);
         }
     }
 }
