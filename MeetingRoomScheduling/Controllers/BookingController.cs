@@ -31,5 +31,16 @@ namespace MeetingRoomScheduling.API.Controllers
             return Ok(result);
         }
 
+        [HttpGet("v1/bookings")]
+        public async Task<IActionResult> GetAll(
+            [FromQuery] int? userId,
+            [FromQuery] int? roomId,
+            [FromServices] IGetBookingsByUserIdAndRoomIdUseCase useCase
+            )
+        {
+            var result = await useCase.Execute(new GetBookingsByUserIdAndRoomIdRequest { UserId = userId, RoomId = roomId });
+            return Ok(result);
+        }
+
     }
 }

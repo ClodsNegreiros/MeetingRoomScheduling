@@ -50,5 +50,18 @@ namespace MeetingRoomScheduling.Infrastructure.Repositories
                     booking.Status == Domain.Enums.EBookingStatus.Active)
                 .ToListAsync();
         }
+
+        public async Task<List<Booking>> GetBookingsByUserIdAndRoomId(int? userId, int? roomId)
+        {
+            var query = _context.Bookings.AsQueryable();
+
+            if (userId.HasValue)
+                query = query.Where(booking => booking.UserId == userId);
+
+            if (roomId.HasValue)
+                query = query.Where(booking => booking.RoomId == roomId);
+
+            return await query.ToListAsync();
+        }
     }
 }
