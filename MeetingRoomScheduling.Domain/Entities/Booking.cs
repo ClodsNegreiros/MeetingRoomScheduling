@@ -15,11 +15,23 @@ namespace MeetingRoomScheduling.Domain.Entities
 
         public Booking(int roomId, int userId, DateTime bookingStartDate, DateTime bookingEndDate, EBookingStatus status)
         {
+            ValidateBookingStartAndEndDate(bookingStartDate, bookingEndDate);
+
             RoomId = roomId;
             UserId = userId;
             BookingStartDate = bookingStartDate;
             BookingEndDate = bookingEndDate;
             Status = status;
+
         }
+
+        public void ValidateBookingStartAndEndDate(DateTime bookingStartDate, DateTime bookingEndDate)
+        {
+            if (bookingStartDate.Date != bookingEndDate.Date)
+            {
+                throw new InvalidOperationException("A reserva deve iniciar e terminar no mesmo dia.");
+            }
+        }
+
     }
 }
