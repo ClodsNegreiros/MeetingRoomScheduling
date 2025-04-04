@@ -14,5 +14,14 @@ namespace MeetingRoomScheduling.API.Controllers
             var result = await useCase.Execute(request);
             return Ok(result);
         }
+
+        [HttpPut("v1/cancel/{id}")]
+        public async Task<IActionResult> Update(
+            [FromRoute] int id,
+            [FromServices] ICancelBookingUseCase useCase)
+        {
+            var result = await useCase.Execute(id);
+            return Ok(result);
+        }
     }
 }
