@@ -14,7 +14,7 @@ namespace MeetingRoomScheduling.Application.Queries.Booking
 
         public async Task<List<Domain.Entities.Booking>> Handle(GetBookingsByUserIdAndRoomIdQuery query, CancellationToken cancellationToken)
         {
-            return await _repository.GetBookingsByUserIdAndRoomId(query.Request.UserId, query.Request.RoomId);
+            return await _repository.GetBookingsByUserIdAndRoomId(query.Request.UserId, query.Request.RoomId, query.Request.BookingDate, query.Request.Status);
         }
     }
 }

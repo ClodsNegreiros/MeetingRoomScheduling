@@ -1,5 +1,6 @@
 ﻿using MeetingRoomScheduling.Application.Interfaces.Booking;
 using MeetingRoomScheduling.Application.Requests.Booking;
+using MeetingRoomScheduling.Domain.Enums;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MeetingRoomScheduling.API.Controllers
@@ -32,13 +33,20 @@ namespace MeetingRoomScheduling.API.Controllers
         }
 
         [HttpGet("v1/bookings")]
-        public async Task<IActionResult> GetAll(
+        public async Task<IActionResult> GetBookings(
             [FromQuery] int? userId,
             [FromQuery] int? roomId,
+            [FromQuery] DateTime? bookingDate,
+            [FromQuery] EBookingStatus? status,
             [FromServices] IGetBookingsByUserIdAndRoomIdUseCase useCase
             )
         {
-            var result = await useCase.Execute(new GetBookingsByUserIdAndRoomIdRequest { UserId = userId, RoomId = roomId });
+            var result = await useCase.Execute(new GetBookingsByUserIdAndRoomIdRequest { 
+                UserId = userId, 
+                RoomId = roomId,
+                BookingDate = bookingDate,
+                Status = status
+            });
             return Ok(result);
         }
 

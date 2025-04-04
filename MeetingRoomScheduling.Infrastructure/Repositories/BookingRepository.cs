@@ -1,4 +1,5 @@
 ﻿using MeetingRoomScheduling.Domain.Entities;
+using MeetingRoomScheduling.Domain.Enums;
 using MeetingRoomScheduling.Domain.Interfaces;
 using MeetingRoomScheduling.Infrastructure.Context;
 using Microsoft.EntityFrameworkCore;
@@ -51,7 +52,7 @@ namespace MeetingRoomScheduling.Infrastructure.Repositories
                 .ToListAsync();
         }
 
-        public async Task<List<Booking>> GetBookingsByUserIdAndRoomId(int? userId, int? roomId)
+        public async Task<List<Booking>> GetBookingsByUserIdAndRoomId(int? userId, int? roomId, DateTime? bookingDate, EBookingStatus? status)
         {
             var query = _context.Bookings.AsQueryable();
 
@@ -60,6 +61,12 @@ namespace MeetingRoomScheduling.Infrastructure.Repositories
 
             if (roomId.HasValue)
                 query = query.Where(booking => booking.RoomId == roomId);
+
+            if (bookingDate.HasValue)
+                query = query.Where(booking => booking.BookingStartDate.Date == bookingDate.Value.Date);
+
+            if (status.HasValue)
+                query = query.Where(booking => booking.Status == status.Value);
 
             return await query.ToListAsync();
         }
